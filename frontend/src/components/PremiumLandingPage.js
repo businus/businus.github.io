@@ -54,29 +54,10 @@ const PremiumLandingPage = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Animate button
-    gsap.to('.submit-btn', {
-      scale: 0.95,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1
-    });
-
     setTimeout(() => {
       setIsSubmitted(true);
       setIsLoading(false);
       setEmail('');
-      
-      // Success animation
-      gsap.fromTo('.success-message', {
-        scale: 0,
-        opacity: 0
-      }, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.5,
-        ease: 'back.out(1.7)'
-      });
     }, 1000);
   };
 
