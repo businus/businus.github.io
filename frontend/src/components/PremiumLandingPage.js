@@ -45,42 +45,6 @@ const PremiumLandingPage = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // GSAP animations
-    gsap.fromTo('.hero-text', {
-      y: 100,
-      opacity: 0
-    }, {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      ease: 'power3.out',
-      stagger: 0.2
-    });
-
-    gsap.fromTo('.floating-element', {
-      y: 0,
-      rotation: 0
-    }, {
-      y: -20,
-      rotation: 5,
-      duration: 3,
-      ease: 'power2.inOut',
-      yoyo: true,
-      repeat: -1
-    });
-
-    // Parallax effects
-    gsap.to('.parallax-bg', {
-      yPercent: -50,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.parallax-bg',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
