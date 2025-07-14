@@ -269,7 +269,7 @@ const PremiumLandingPage = () => {
                           <button
                             type="submit"
                             disabled={isLoading}
-                            className="submit-btn w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-lg font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/25"
+                            className="w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-lg font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/25"
                           >
                             {isLoading ? (
                               <div className="flex items-center justify-center">
