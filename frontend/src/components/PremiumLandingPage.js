@@ -287,10 +287,10 @@ const PremiumLandingPage = () => {
                       </form>
                     ) : (
                       <motion.div
-                        className="success-message text-center"
+                        className="text-center"
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.5, ease: 'back.out(1.7)' }}
+                        transition={{ duration: 0.5 }}
                       >
                         <div className="flex flex-col items-center space-y-3">
                           <div className="w-16 h-16 bg-gradient-to-r from-emerald-400 to-teal-600 rounded-full flex items-center justify-center">
