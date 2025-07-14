@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useIntersectionObserver } from 'react-intersection-observer';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { 
   CheckCircleIcon, 
   GlobeAltIcon, 
@@ -20,8 +17,6 @@ import {
   UsersIcon,
   ChartBarIcon
 } from '@heroicons/react/24/outline';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const PremiumLandingPage = () => {
   const [email, setEmail] = useState('');
