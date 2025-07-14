@@ -319,11 +319,11 @@ const PremiumLandingPage = () => {
             >
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl blur-2xl opacity-20"></div>
-                <div className="floating-element relative">
+                <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1542641728-6ca359b085f4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwzfHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fGJsdWV8MTc1MjUyMjE0OHww&ixlib=rb-4.1.0&q=85"
                     alt="Global Business Success"
-                    className="rounded-3xl shadow-2xl w-full h-auto"
+                    className="rounded-3xl shadow-2xl w-full h-auto animate-pulse"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-3xl"></div>
                 </div>
