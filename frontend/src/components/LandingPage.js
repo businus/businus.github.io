@@ -129,7 +129,7 @@ const LandingPage = () => {
             <div className="flex items-center space-x-6">
               <a href="tel:+1-555-0123" className="flex items-center text-slate-700 hover:text-emerald-600 transition-colors">
                 <PhoneIcon className="h-5 w-5 mr-2" />
-                <span className="text-lg">+1 (555) 012-3456</span>
+                <span className="text-lg">+91 7975 113388</span>
               </a>
               <a href="mailto:info@busin.us" className="flex items-center text-slate-700 hover:text-emerald-600 transition-colors">
                 <EnvelopeIcon className="h-5 w-5 mr-2" />
@@ -387,7 +387,7 @@ const LandingPage = () => {
               className="inline-flex items-center px-6 py-3 bg-white text-emerald-600 text-lg font-semibold rounded-lg hover:bg-slate-50 transition-colors"
             >
               <PhoneIcon className="h-5 w-5 mr-2" />
-              Call: +1 (555) 012-3456
+              Call: +91 7975 113388
             </a>
             <a
               href="mailto:info@busin.us"
@@ -423,7 +423,7 @@ const LandingPage = () => {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <PhoneIcon className="h-5 w-5 mr-3 text-emerald-400" />
-                  <span>+1 (555) 012-3456</span>
+                  <span>+91 7975 113388</span>
                 </div>
                 <div className="flex items-center">
                   <EnvelopeIcon className="h-5 w-5 mr-3 text-emerald-400" />

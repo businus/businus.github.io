@@ -97,7 +97,7 @@ const PremiumLandingPage = () => {
   ];
 
   const stats = [
-    { icon: TrophyIcon, number: '500+', label: 'Successful Launches', color: 'text-emerald-400' },
+    { icon: TrophyIcon, number: '1', label: 'Successful Launches', color: 'text-emerald-400' },
     { icon: UsersIcon, number: '50+', label: 'Countries Served', color: 'text-blue-400' },
     { icon: ChartBarIcon, number: '98%', label: 'Success Rate', color: 'text-purple-400' },
     { icon: ShieldCheckIcon, number: '24/7', label: 'Expert Support', color: 'text-orange-400' }
@@ -206,7 +206,7 @@ const PremiumLandingPage = () => {
             >
               <a href="tel:+1-555-0123" className="flex items-center text-slate-300 hover:text-emerald-400 transition-colors group">
                 <PhoneIcon className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
-                <span className="text-lg">+1 (555) 012-3456</span>
+                <span className="text-lg">+91 7975 113388</span>
               </a>
               <a href="mailto:info@busin.us" className="flex items-center text-slate-300 hover:text-emerald-400 transition-colors group">
                 <EnvelopeIcon className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
@@ -566,11 +566,11 @@ const PremiumLandingPage = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+1-555-0123"
+                href="tel:+917975113388"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-lg font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/25"
               >
                 <PhoneIcon className="h-6 w-6 mr-2" />
-                Call Now: +1 (555) 012-3456
+                Call Now: +91 7975 113388
               </a>
               <a
                 href="mailto:info@busin.us"
@@ -631,7 +631,7 @@ const PremiumLandingPage = () => {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <PhoneIcon className="h-5 w-5 mr-3 text-emerald-400" />
-                  <span className="text-slate-300">+1 (555) 012-3456</span>
+                  <span className="text-slate-300">+91 7975 113388</span>
                 </div>
                 <div className="flex items-center">
                   <EnvelopeIcon className="h-5 w-5 mr-3 text-emerald-400" />
