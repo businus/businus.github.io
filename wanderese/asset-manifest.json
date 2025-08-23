@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "./static/css/main.403fe41a.css",
-    "main.js": "./static/js/main.efbee5a6.js",
-    "index.html": "./index.html",
-    "main.403fe41a.css.map": "./static/css/main.403fe41a.css.map",
-    "main.efbee5a6.js.map": "./static/js/main.efbee5a6.js.map"
+    "main.css": "/wanderese/static/css/main.403fe41a.css",
+    "main.js": "/wanderese/static/js/main.efbee5a6.js",
+    "index.html": "/wanderese/index.html",
+    "main.403fe41a.css.map": "/wanderese/static/css/main.403fe41a.css.map",
+    "main.efbee5a6.js.map": "/wanderese/static/js/main.efbee5a6.js.map"
   },
   "entrypoints": [
     "static/css/main.403fe41a.css",
