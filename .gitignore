@@ -78,3 +78,5 @@ agenthub/agents/youtube/db
 
 # Mobile development
 android-sdk/ 
+frontend/build/
+businus.github.io

@@ -67,6 +67,16 @@ const handleJoinClick = async () => {
     // Send details immediately after join
     await sendDetailsToTelegram();
 
+    // Save to localStorage for Workflow AI access
+    const signupData = {
+      name,
+      email,
+      contact,
+      address,
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('busin.us-signup', JSON.stringify(signupData));
+
     // Move to next step after sending Telegram message
     setIsJoinClicked(true);
     setNewsletterConfirmed(null);

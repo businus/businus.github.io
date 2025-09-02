@@ -1,67 +1,75 @@
-// ThankYouMessage.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import PropTypes from "prop-types";
-
-const roleMessages = {
-  Lawyer: "⚖️ Get ready to provide expert legal guidance to businesses worldwide.",
-  Accountant: "💰 Be ready for auditing financials and securing business prosperity.",
-  "IT Practitioner": "💻 Prepare to innovate and support global business technologies.",
-  "Fellow Entrepreneur": "🚀 Gear up to drive entrepreneurial success on a global scale.",
-};
 
 const ThankYouMessage = ({ name, role, newsletterConfirmed, finalSubscribeChecked }) => {
   const isSubscribed = newsletterConfirmed === "subscribed" || finalSubscribeChecked;
 
   return (
     <motion.div
-      role="alert"
-      aria-live="polite"
-      className="text-center mt-6"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className="text-center py-4"
     >
-      <div className="flex flex-col items-center space-y-3">
-        <div className="w-16 h-16 bg-gradient-to-r from-emerald-400 to-teal-600 rounded-full flex items-center justify-center">
-          <CheckCircleIcon className="h-8 w-8 text-white" />
+      <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg
+          className="w-8 h-8 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+
+      <h3 className="text-2xl font-bold text-white mb-2">
+        Thank You{name ? `, ${name.split(" ")[0]}` : ""}!
+      </h3>
+
+      <p className="text-slate-300 mb-6">
+        {role === "Skipped"
+          ? "We appreciate your interest in busin.us."
+          : `We're excited to have a ${role} on board.`}
+      </p>
+
+      {isSubscribed ? (
+        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-6">
+          <p className="text-emerald-400">
+            🎉 You're subscribed to our newsletter! Check your inbox for exclusive business insights.
+          </p>
         </div>
+      ) : (
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-6">
+          <p className="text-amber-400">
+            You've chosen to skip our newsletter. You can always subscribe later.
+          </p>
+        </div>
+      )}
 
-        {name ? (
-          <h3 className="text-xl font-semibold text-emerald-400">Thank you, {name}!</h3>
-        ) : (
-          <h3 className="text-xl font-semibold text-emerald-400">Thank you for your interest!</h3>
-        )}
+      <div className="space-y-4">
+        <a
+          href="/workflow-ai"
+          className="inline-block w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105"
+        >
+          Create Your Business Plan with AI
+        </a>
 
-        {role === "Skipped" ? (
-          <p className="text-slate-300">You chose to skip role selection.</p>
-        ) : (
-          <p className="text-slate-300">{roleMessages[role] || "Thank you for joining us!"}</p>
-        )}
-
-        <p className="text-slate-300">
-          {isSubscribed
-            ? "You are subscribed to our newsletter. Welcome aboard!"
-            : "You chose to skip newsletter subscription."}
-        </p>
-
-        <p className="text-slate-300">You've been added to our exclusive waitlist.</p>
+        <div className="text-sm text-slate-400">
+          <p>What happens next?</p>
+          <ul className="mt-2 space-y-1 text-left list-disc list-inside">
+            <li>We'll send you a welcome email with next steps</li>
+            <li>Our team will review your profile and reach out</li>
+            <li>Get exclusive access to our business planning tools</li>
+          </ul>
+        </div>
       </div>
     </motion.div>
   );
-};
-
-ThankYouMessage.propTypes = {
-  name: PropTypes.string,
-  role: PropTypes.string.isRequired,
-  newsletterConfirmed: PropTypes.string,
-  finalSubscribeChecked: PropTypes.bool.isRequired,
-};
-
-ThankYouMessage.defaultProps = {
-  name: "",
-  newsletterConfirmed: null,
 };
 
 export default ThankYouMessage;

@@ -36,8 +36,26 @@
     <meta name="msapplication-TileImage" content="/assets/Logo_Optimized/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
     <title>Busin.US⌚</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#4f46e5',
+              'brand-secondary': '#7c3aed',
+              'dark-bg': '#111827',
+              'dark-surface': '#1f2937',
+              'dark-border': '#374151',
+              'dark-text-primary': '#f9fafb',
+              'dark-text-secondary': '#9ca3af',
+            },
+          },
+        },
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-dark-bg text-dark-text-primary">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

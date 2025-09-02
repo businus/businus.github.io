@@ -204,7 +204,7 @@ const PremiumLandingPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <a href="tel:+1-555-0123" className="flex items-center text-slate-300 hover:text-emerald-400 transition-colors group">
+              <a href="tel:+917975113388" className="flex items-center text-slate-300 hover:text-emerald-400 transition-colors group">
                 <PhoneIcon className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                 <span className="text-lg">+91 7975 113388</span>
               </a>
@@ -540,6 +540,94 @@ const PremiumLandingPage = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Workflow AI Section */}
+      <section className="py-20 relative bg-slate-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Plan Your Business with{' '}
+              <span className="bg-gradient-to-r from-emerald-400 to-teal-600 bg-clip-text text-transparent">
+                AI-Powered Workflows
+              </span>
+            </h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              Create, visualize, and download your business plans with our intelligent workflow builder. 
+              Sign up for our newsletter to unlock premium features.
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative bg-slate-800/50 backdrop-blur-md rounded-2xl p-8 border border-slate-700/50">
+                <h3 className="text-2xl font-semibold text-white mb-4">Business Planning Made Simple</h3>
+                <ul className="space-y-4 mb-6">
+                  <li className="flex items-start">
+                    <CheckCircleIcon className="h-6 w-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300">AI-generated business workflows tailored to your needs</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircleIcon className="h-6 w-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300">Visual planning tools to map your business strategy</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircleIcon className="h-6 w-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300">Downloadable plans to share with your team</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircleIcon className="h-6 w-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300">Step-by-step execution guidance</span>
+                  </li>
+                </ul>
+                
+                {isSubmitted ? (
+                  <a
+                    href="/workflow-ai"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105"
+                  >
+                    Access Workflow Builder
+                    <ArrowRightIcon className="h-5 w-5 ml-2" />
+                  </a>
+                ) : (
+                  <div className="inline-flex items-center px-6 py-3 bg-slate-700 text-slate-400 font-semibold rounded-xl cursor-not-allowed">
+                    Sign up for newsletter to unlock
+                  </div>
+                )}
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl blur-2xl opacity-20"></div>
+              <div className="relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-700/50">
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwzfHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fGJsdWV8MTc1MjUyMjE0OHww&ixlib=rb-4.1.0&q=85"
+                  alt="Workflow AI Visualization"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
