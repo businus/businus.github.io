@@ -105,9 +105,28 @@ const WorkflowApp = () => {
   const [activeNodeId, setActiveNodeId] = useState(null);
   const [showSignupModal, setShowSignupModal] = useState(false);
   
+  // Mobile state
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  
   const dragStartPositionsRef = useRef(new Map());
   const clipboardRef = useRef({ nodes: [], edges: [] });
   const isDraggingRef = useRef(false);
+
+  // Check if we're on mobile device
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 640); // Tailwind's sm breakpoint
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -188,7 +207,12 @@ const WorkflowApp = () => {
       }
       return [nodeId];
     });
-  }, []);
+    
+    // On mobile, open settings panel when a node is selected
+    if (isMobile) {
+      setIsSettingsOpen(true);
+    }
+  }, [isMobile]);
 
   const handleSelectNodes = useCallback((nodeIds, isShiftPressed) => {
     setSelectedNodeIds(prevSelected => {
@@ -779,6 +803,9 @@ const WorkflowApp = () => {
         <Sidebar 
           onAddNode={(type) => addNode(type)} 
           onAiAddNode={handleAiAddNode}
+          isMobile={isMobile}
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
         />
         
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -788,7 +815,13 @@ const WorkflowApp = () => {
               edges={edges}
               groups={groups}
               onNodeClick={handleNodeClick}
-              onCanvasClick={() => setSelectedNodeIds([])}
+              onCanvasClick={() => {
+                setSelectedNodeIds([]);
+                if (isMobile) {
+                  setIsSettingsOpen(false);
+                  setIsSidebarOpen(false);
+                }
+              }}
               onSelectNodes={handleSelectNodes}
               selectedNodeIds={selectedNodeIds}
               onNodePositionChange={updateNodePosition}
@@ -826,8 +859,42 @@ const WorkflowApp = () => {
           onUpdate={updateNode}
           credentials={credentials}
           onOpenCredentialsModal={() => setIsCredentialsModalOpen(true)}
+          isMobile={isMobile}
+          isSettingsOpen={isSettingsOpen}
+          setIsSettingsOpen={setIsSettingsOpen}
         />
       </div>
+      
+      {/* Mobile floating action buttons */}
+      {isMobile && (
+        <div className="fixed bottom-4 left-4 z-30">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="bg-brand-primary text-white p-3 rounded-full shadow-lg hover:bg-brand-primary/90 transition-colors"
+            title="Open Nodes Panel"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      )}
+      
+      {/* Mobile settings button */}
+      {isMobile && selectedNodeIds.length > 0 && (
+        <div className="fixed bottom-4 right-20 z-30">
+          <button
+            onClick={() => setIsSettingsOpen(true)}
+            className="bg-brand-secondary text-white p-3 rounded-full shadow-lg hover:bg-brand-secondary/90 transition-colors"
+            title="Open Settings"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+        </div>
+      )}
       
       <CredentialsModal
           isOpen={isCredentialsModalOpen}

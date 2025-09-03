@@ -400,51 +400,85 @@ export const WorkflowCanvas = ({
     [groups]
   );
   const visibleNodes = useMemo(() => nodes.filter(n => !collapsedNodeIds.has(n.id)), [nodes, collapsedNodeIds]);
+  const visibleEdges = useMemo(() => edges.filter(edge => 
+    !collapsedNodeIds.has(edge.source) && !collapsedNodeIds.has(edge.target)
+  ), [edges, collapsedNodeIds]);
+  const visibleGroups = useMemo(() => groups.filter(g => !g.isCollapsed), [groups]);
+  
+  // Create nodeMap for edge rendering
+  const nodeMap = useMemo(() => {
+    const map = new Map();
+    nodes.forEach(node => map.set(node.id, node));
+    return map;
+  }, [nodes]);
+
+  useEffect(() => {
+    const canvasEl = canvasRef.current;
+    if (!canvasEl) return;
+    
+    // Add wheel event listener with passive option set to false to allow preventDefault
+    canvasEl.addEventListener('wheel', handleWheel, { passive: false });
+    
+    return () => {
+      canvasEl.removeEventListener('wheel', handleWheel);
+    };
+  }, [handleWheel]);
 
   return (
-    <div
+    <div 
       ref={canvasRef}
-      className="w-full h-full bg-slate-900 overflow-hidden relative"
+      className="relative flex-grow bg-dark-bg overflow-hidden touch-none"
       onMouseDown={handleMouseDown}
-      onWheel={handleWheel}
     >
-      <div
-        className="absolute top-0 left-0 w-full h-full"
+      <div 
+        className="absolute inset-0 origin-top-left"
         style={{
-          backgroundSize: `${GRID_SIZE * viewTransform.scale}px ${GRID_SIZE * viewTransform.scale}px`,
-          backgroundPosition: `${viewTransform.x}px ${viewTransform.y}px`,
-          backgroundImage: `radial-gradient(circle at center, #374151 1px, transparent 1px)`,
+          transform: `translate(${viewTransform.x}px, ${viewTransform.y}px) scale(${viewTransform.scale})`,
+          backgroundImage: 'radial-gradient(circle, #374151 1px, transparent 1px)',
+          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
         }}
-      />
-      <div
-        className="absolute top-0 left-0"
-        style={{ transform: `translate(${viewTransform.x}px, ${viewTransform.y}px) scale(${viewTransform.scale})` }}
       >
-        {groups.map(group => (
-            <Group
-                key={group.id}
-                group={group}
-                onMouseDown={handleGroupMouseDown}
-                onToggleCollapse={onToggleGroupCollapse}
-            />
-        ))}
-
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" style={{ width: '100vw', height: '100vh', transformOrigin: 'top left' }}>
-            <g>
-              {renderedEdges}
-              {renderedLoopFeedbackLines}
-              {drawingEdge && (
+        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          {visibleEdges.map(edge => {
+            const sourceNode = nodeMap.get(edge.source);
+            const targetNode = nodeMap.get(edge.target);
+            if (!sourceNode || !targetNode) return null;
+            
+            const { path, label, midPoint } = getEdgePath(sourceNode, targetNode, edge.sourceHandle);
+            
+            return (
+              <g key={edge.id}>
                 <path
-                  d={`M ${drawingEdge.startPos.x} ${drawingEdge.startPos.y} C ${drawingEdge.startPos.x + 50} ${drawingEdge.startPos.y}, ${drawingEdge.endPos.x - 50} ${drawingEdge.endPos.y}, ${drawingEdge.endPos.x} ${drawingEdge.endPos.y}`}
-                  stroke="#a78bfa"
+                  d={path}
+                  stroke="#94a3b8"
                   strokeWidth="2"
                   fill="none"
-                  strokeDasharray="4 4"
+                  className="drop-shadow-sm"
                 />
-              )}
-            </g>
+                {label && (
+                  <text
+                    x={midPoint.x}
+                    y={midPoint.y - 5}
+                    textAnchor="middle"
+                    className="text-xs fill-slate-400 pointer-events-none select-none"
+                    style={{ fontSize: '10px' }}
+                  >
+                    {label}
+                  </text>
+                )}
+              </g>
+            );
+          })}
         </svg>
-
+        {visibleGroups.map(group => (
+          <Group
+            key={group.id}
+            group={group}
+            isSelected={selectedNodeIds.includes(group.id)}
+            onMouseDown={handleGroupMouseDown}
+            onToggleCollapse={() => onToggleGroupCollapse(group.id)}
+          />
+        ))}
         {visibleNodes.map(node => (
           <Node
             key={node.id}
@@ -481,7 +515,9 @@ export const WorkflowCanvas = ({
         canvasDimensions={canvasDimensions}
         onPan={setViewTransform}
       />
-      <div className="absolute bottom-4 right-4 bg-slate-800/50 backdrop-blur-md p-1 rounded-md shadow-lg flex items-center gap-1 border border-slate-700/50 z-10">
+      
+      {/* Desktop controls */}
+      <div className="absolute bottom-4 right-4 bg-slate-800/50 backdrop-blur-md p-1 rounded-md shadow-lg flex items-center gap-1 border border-slate-700/50 z-10 hidden sm:flex">
           <button onClick={onRun} disabled={executionStatus === 'RUNNING'} title="Run Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"><RunIcon className="w-5 h-5"/></button>
           <div className="w-px h-6 bg-slate-700 mx-1"></div>
           <button onClick={onUndo} disabled={!canUndo} title="Undo (Ctrl+Z)" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"><UndoIcon className="w-5 h-5"/></button>
@@ -494,6 +530,41 @@ export const WorkflowCanvas = ({
           <div className="w-px h-6 bg-slate-700 mx-1"></div>
           <button onClick={onImport} title="Import Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white"><ImportIcon className="w-5 h-5"/></button>
           <button onClick={onExport} title="Export Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white"><ExportIcon className="w-5 h-5"/></button>
+      </div>
+      
+      {/* Mobile controls */}
+      <div className="absolute bottom-4 right-4 bg-slate-800/50 backdrop-blur-md p-1 rounded-md shadow-lg flex items-center gap-1 border border-slate-700/50 z-10 sm:hidden">
+          <button onClick={onRun} disabled={executionStatus === 'RUNNING'} title="Run Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+            <RunIcon className="w-5 h-5"/>
+          </button>
+          <div className="w-px h-6 bg-slate-700 mx-1"></div>
+          <button onClick={onUndo} disabled={!canUndo} title="Undo" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+            <UndoIcon className="w-5 h-5"/>
+          </button>
+          <button onClick={onRedo} disabled={!canRedo} title="Redo" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+            <RedoIcon className="w-5 h-5"/>
+          </button>
+          <div className="w-px h-6 bg-slate-700 mx-1"></div>
+          <button onClick={onImport} title="Import Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white">
+            <ImportIcon className="w-5 h-5"/>
+          </button>
+          <button onClick={onExport} title="Export Workflow" className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white">
+            <ExportIcon className="w-5 h-5"/>
+          </button>
+      </div>
+      
+      {/* Mobile zoom controls */}
+      <div className="absolute bottom-20 right-4 bg-slate-800/50 backdrop-blur-md p-1 rounded-md shadow-lg flex flex-col items-center gap-1 border border-slate-700/50 z-10 sm:hidden">
+          <button onClick={() => setViewTransform(v => ({...v, scale: Math.min(2, v.scale * 1.2)}))} className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white">
+            <ZoomInIcon className="w-5 h-5"/>
+          </button>
+          <span className="text-xs font-mono text-slate-400 w-10 text-center">{(viewTransform.scale * 100).toFixed(0)}%</span>
+          <button onClick={() => setViewTransform(v => ({...v, scale: Math.max(0.2, v.scale / 1.2)}))} className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white">
+            <ZoomOutIcon className="w-5 h-5"/>
+          </button>
+          <button onClick={() => setViewTransform({x:0, y:0, scale:1})} className="p-1.5 hover:bg-slate-700 rounded-md text-slate-300 hover:text-white">
+            <ResetZoomIcon className="w-5 h-5"/>
+          </button>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { NodeType } from '../types.js';
 import { NODE_TYPES } from '../constants.js';
-import { AIGenerateIcon, SearchIcon, StarIcon, StarOutlineIcon } from './icons';
+import { AIGenerateIcon, SearchIcon, StarIcon, StarOutlineIcon, CloseIcon } from './icons';
 
 const nodeCategoriesRaw = [
     {
@@ -80,7 +80,7 @@ const AiNodeCreator = ({ onAiAddNode }) => {
 };
 
 
-export const Sidebar = ({ onAddNode, onAiAddNode }) => {
+export const Sidebar = ({ onAddNode, onAiAddNode, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [favoriteNodes, setFavoriteNodes] = useState(() => {
     try {
@@ -140,8 +140,106 @@ export const Sidebar = ({ onAddNode, onAiAddNode }) => {
       .filter(category => category.nodes.length > 0);
   }, [searchTerm, favoriteNodes]);
 
+  // For mobile, we render a modal-like sidebar
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile sidebar overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+        
+        {/* Mobile sidebar */}
+        <aside 
+          className={`fixed top-0 left-0 h-full bg-dark-surface border-r border-dark-border p-4 z-50 flex flex-col transition-transform duration-300 ease-in-out sm:hidden ${
+            isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+          style={{ width: '90%', maxWidth: '320px' }}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-dark-text-primary">Nodes</h2>
+            <button 
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 rounded-md text-dark-text-secondary hover:bg-dark-bg"
+            >
+              <CloseIcon className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <AiNodeCreator onAiAddNode={onAiAddNode} />
+          <div className="w-full h-px bg-dark-border my-4"></div>
+          
+          <div className="relative mb-3">
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-text-secondary" />
+            <input
+              type="text"
+              placeholder="Search nodes..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-dark-bg border border-dark-border rounded-md py-2 pl-9 pr-3 text-sm text-dark-text-primary placeholder-dark-text-secondary focus:ring-2 focus:ring-brand-primary focus:outline-none transition"
+            />
+          </div>
+          
+          <div className="flex-grow overflow-y-auto -mr-2 pr-2">
+            {filteredCategories.map((category) => (
+              <div key={category.name}>
+                <h3 className="text-xs font-bold uppercase text-dark-text-secondary tracking-wider mt-4 mb-2 px-1">
+                  {category.name}
+                </h3>
+                <div className="space-y-2">
+                  {category.nodes.map((nodeInfo) => (
+                    <div
+                      key={nodeInfo.type}
+                      title={nodeInfo.description}
+                      className="w-full flex items-center gap-3 p-2 rounded-md bg-dark-bg border border-transparent hover:bg-brand-primary/20 hover:border-brand-primary transition-all text-left group"
+                    >
+                      <button 
+                        onClick={() => {
+                          onAddNode(nodeInfo.type);
+                          setIsSidebarOpen(false); // Close sidebar after adding node
+                        }} 
+                        className="flex-grow flex items-center gap-3 text-left"
+                      >
+                        <div className="p-2 bg-dark-surface rounded-md text-brand-secondary group-hover:text-brand-primary">
+                          {nodeInfo.icon}
+                        </div>
+                        <div>
+                          <p className="font-medium text-dark-text-primary">{nodeInfo.label}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(nodeInfo.type);
+                        }}
+                        className="p-1 rounded-full text-dark-text-secondary/50 opacity-0 group-hover:opacity-100 hover:text-yellow-400 transition-opacity"
+                        title={favoriteNodes.includes(nodeInfo.type) ? 'Remove from favorites' : 'Add to favorites'}
+                      >
+                        {favoriteNodes.includes(nodeInfo.type) ? 
+                            <StarIcon className="w-4 h-4 text-yellow-400" /> : 
+                            <StarOutlineIcon className="w-4 h-4" />
+                        }
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {filteredCategories.length === 0 && (
+              <p className="text-sm text-dark-text-secondary text-center mt-6">No nodes found.</p>
+            )}
+          </div>
+        </aside>
+      </>
+    );
+  }
+
+  // Desktop sidebar (existing implementation)
   return (
-    <aside className="w-72 bg-dark-surface border-r border-dark-border p-4 flex-shrink-0 z-20 flex flex-col">
+    <aside className="w-72 bg-dark-surface border-r border-dark-border p-4 flex-shrink-0 z-20 flex flex-col hidden sm:flex">
       <AiNodeCreator onAiAddNode={onAiAddNode} />
       <div className="w-full h-px bg-dark-border my-4"></div>
       <h2 className="text-lg font-semibold text-dark-text-primary mb-3">Nodes</h2>
