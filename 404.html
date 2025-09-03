@@ -4,20 +4,14 @@
     <meta charset="utf-8">
     <title>Redirecting to WorkflowAI</title>
     <script>
-      // Single redirect solution for GitHub Pages
-      (function() {
-        // Get the current path
-        var location = window.location;
-        var pathname = location.pathname;
-        
-        // If we're at the 404 page, redirect to the main index.html
-        // This preserves the URL for React Router to handle
-        if (pathname.indexOf('404.html') !== -1) {
-          // Redirect to the root with the hash-based routing
-          var redirectPath = pathname.replace('404.html', '');
-          location.replace(location.origin + redirectPath);
-        }
-      })();
+      // Redirect to the main page for client-side routing
+      var path = window.location.pathname;
+      // If we're not at the root, redirect to the root with the hash
+      if (path !== '/') {
+        window.location.href = '/#' + path;
+      } else {
+        window.location.href = '/';
+      }
     </script>
   </head>
   <body>
