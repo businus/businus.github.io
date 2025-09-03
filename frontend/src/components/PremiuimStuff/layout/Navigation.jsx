@@ -2,6 +2,7 @@
 import React, { forwardRef, useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { PhoneIcon, EnvelopeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import LogoComponent from '../../shared/LogoComponent';
 
 const WHATSAPP_NUMBER = "+917975113388"; // international format without spaces or dashes
 const PHONE_NUMBER_DISPLAY = "+91 7975 113388";
@@ -21,16 +22,13 @@ function useDeviceType() {
 }
 
 const Navigation = forwardRef((props, ref) => {
-  const audioRef = useRef(null);
   const containerRef = useRef(null);
   const [showPhoneOptions, setShowPhoneOptions] = useState(false);
 
   const deviceType = useDeviceType();
 
   const handleLogoClick = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
+    // Audio playback is handled within LogoComponent
   };
 
   // Close dropdown on outside click or Escape key
@@ -120,32 +118,7 @@ const Navigation = forwardRef((props, ref) => {
               transition: { type: "spring", stiffness: 400, damping: 15 },
             }}
           >
-            <img
-              src="/assets/businslogoupscaled.png"
-              alt="busin.us logo"
-              className="w-8 h-8 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl shadow-lg object-contain drop-shadow-lg"
-              draggable={false}
-              loading="eager"
-            />
-            <span
-              className="ml-2 sm:ml-3 text-sm sm:text-base md:text-xl lg:text-3xl font-extrabold tracking-tight
-                         bg-gradient-to-r from-emerald-400 via-teal-500 to-teal-600 bg-clip-text
-                         text-transparent select-none drop-shadow-md"
-            >
-              Busin.us
-            </span>
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              whileHover={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="pointer-events-none absolute bottom-[-2.5rem] sm:bottom-[-2.75rem]
-                         left-1/2 -translate-x-1/2 bg-teal-600 bg-opacity-90 text-white
-                         text-[9px] sm:text-xs rounded-md px-2 py-1 shadow-lg select-none
-                         font-medium tracking-wide whitespace-nowrap max-w-xs sm:max-w-none
-                         overflow-hidden text-ellipsis"
-            >
-              Click logo to play sound
-            </motion.div>
+            <LogoComponent onLogoClick={handleLogoClick} size="lg" />
           </motion.div>
 
           {/* Contact info */}
@@ -216,7 +189,7 @@ const Navigation = forwardRef((props, ref) => {
           </motion.div>
         </div>
       </div>
-      <audio ref={audioRef} src="/assets/This is Businus.mp3" preload="auto" />
+
     </nav>
   );
 });

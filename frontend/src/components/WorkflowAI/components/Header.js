@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AIGenerateIcon, LogoIcon } from './icons';
+import { AIGenerateIcon } from './icons';
+import LogoComponent from '../../shared/LogoComponent';
 
 export const Header = ({ onGenerate, isLoading }) => {
   const [prompt, setPrompt] = useState('');
@@ -14,7 +15,7 @@ export const Header = ({ onGenerate, isLoading }) => {
   return (
     <header className="flex-shrink-0 bg-dark-surface border-b border-dark-border px-4 py-2 flex items-center justify-between shadow-md z-30">
       <div className="flex items-center gap-3">
-        <LogoIcon className="w-8 h-8 text-brand-primary" />
+        <LogoComponent size="md" includeAudio={false} />
         <h1 className="text-xl font-bold text-dark-text-primary tracking-tight">
           Busin.us <span className="text-brand-secondary">Workflow AI</span>
         </h1>

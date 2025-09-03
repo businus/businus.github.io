@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './components/WorkflowAI/contexts/ThemeContext';
-// import PremiumLandingPage from './components/PremiumLandingPage';
 import PremiumLandingPage from './components/PremiuimStuff/layout/PremiumLandingPage.jsx';
-import LandingPage from './components/LandingPage';
 import WorkflowAI from './components/WorkflowAI/WorkflowAI';
 import './App.css';
 
@@ -13,8 +11,7 @@ function App() {
       <ThemeProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<PremiumLandingPage />} />
-            <Route path="/simple" element={<LandingPage />} />
+            <Route path="/" element={<PremiumLandingPage />} />           
             <Route path="/workflow-ai" element={<WorkflowAI />} />
           </Routes>
         </BrowserRouter>

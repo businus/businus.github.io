@@ -158,6 +158,26 @@ const handleJoinClick = async () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
+            {/* Workflow AI Announcement */}
+            <div className="bg-gradient-to-r from-emerald-500 to-teal-600 border-l-4 border-yellow-400 pl-4 pr-4 py-3 mb-6 rounded-r-lg shadow-md">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div className="flex-1 text-center sm:text-left">
+                  <p className="text-white font-bold text-sm sm:text-base">
+                    <span className="inline-block mr-2">🚀</span>
+                    Introducing our AI Workflow Planner & Executor - Automate your business processes today!
+                  </p>
+                </div>
+                <div className="flex-shrink-0 mt-2 sm:mt-0">
+                  <a 
+                    href="/workflow-ai" 
+                    className="inline-block px-4 py-2 bg-white text-emerald-700 font-bold text-sm rounded-lg hover:bg-yellow-100 transition-all duration-300 transform hover:scale-105 whitespace-nowrap"
+                  >
+                    Try Now →
+                  </a>
+                </div>
+              </div>
+            </div>
+           
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
               Launch Your Business{" "}
               <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">

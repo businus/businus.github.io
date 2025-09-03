@@ -105,7 +105,6 @@ const PremiumLandingPage = () => {
             }}
           ></div>
         </div>
-
         <HeroSection
           email={email}
           setEmail={setEmail}
