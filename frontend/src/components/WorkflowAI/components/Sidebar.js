@@ -10,7 +10,7 @@ const nodeCategoriesRaw = [
     },
     {
         name: 'Integrations',
-        nodes: [NodeType.SEND_EMAIL, NodeType.UPDATE_CRM, NodeType.SOCIAL_POST, NodeType.QUERY_DATABASE, NodeType.CONNECT_API]
+        nodes: [NodeType.SEND_EMAIL, NodeType.SEND_MESSAGE, NodeType.UPDATE_CRM, NodeType.SOCIAL_POST, NodeType.QUERY_DATABASE, NodeType.CONNECT_API]
     },
     {
         name: 'Busin.US', // Renamed from Business Automation
@@ -34,17 +34,16 @@ const sortedNodeCategories = [businUsCategory, ...nodeCategoriesRaw];
 const FAVORITES_STORAGE_KEY = 'busin.us-favorite-nodes';
 
 
-const AiNodeCreator = ({ onAiAddNode }) => {
-    const [prompt, setPrompt] = useState('');
+const AiNodeCreator = ({ onAiAddNode, aiPrompt, setAiPrompt }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!prompt.trim() || isLoading) return;
+        if (!aiPrompt.trim() || isLoading) return;
         setIsLoading(true);
-        await onAiAddNode(prompt);
+        await onAiAddNode(aiPrompt);
         setIsLoading(false);
-        setPrompt('');
+        // Don't clear the prompt here, it will be cleared in the parent component
     };
 
     return (
@@ -53,15 +52,15 @@ const AiNodeCreator = ({ onAiAddNode }) => {
             <form onSubmit={handleSubmit} className="relative">
                 <input
                     type="text"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
+                    value={aiPrompt}
+                    onChange={(e) => setAiPrompt(e.target.value)}
                     placeholder="e.g., 'check if user is premium'"
                     className="w-full bg-dark-bg border border-dark-border rounded-md py-2 pl-3 pr-10 text-sm text-dark-text-primary placeholder-dark-text-secondary focus:ring-2 focus:ring-brand-primary focus:outline-none transition"
                     disabled={isLoading}
                 />
                 <button
                     type="submit"
-                    disabled={isLoading || !prompt.trim()}
+                    disabled={isLoading || !aiPrompt.trim()}
                     className="absolute right-1 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-dark-text-secondary hover:bg-brand-primary hover:text-white disabled:hover:bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     title="Generate Node"
                 >
@@ -79,8 +78,7 @@ const AiNodeCreator = ({ onAiAddNode }) => {
     );
 };
 
-
-export const Sidebar = ({ onAddNode, onAiAddNode, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
+export const Sidebar = ({ onAddNode, onAiAddNode, isMobile, isSidebarOpen, setIsSidebarOpen, aiPrompt, setAiPrompt }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [favoriteNodes, setFavoriteNodes] = useState(() => {
     try {
@@ -169,7 +167,7 @@ export const Sidebar = ({ onAddNode, onAiAddNode, isMobile, isSidebarOpen, setIs
             </button>
           </div>
           
-          <AiNodeCreator onAiAddNode={onAiAddNode} />
+          <AiNodeCreator onAiAddNode={onAiAddNode} aiPrompt={aiPrompt} setAiPrompt={setAiPrompt} />
           <div className="w-full h-px bg-dark-border my-4"></div>
           
           <div className="relative mb-3">
@@ -240,7 +238,7 @@ export const Sidebar = ({ onAddNode, onAiAddNode, isMobile, isSidebarOpen, setIs
   // Desktop sidebar (existing implementation)
   return (
     <aside className="w-72 bg-dark-surface border-r border-dark-border p-4 flex-shrink-0 z-20 flex flex-col hidden sm:flex">
-      <AiNodeCreator onAiAddNode={onAiAddNode} />
+      <AiNodeCreator onAiAddNode={onAiAddNode} aiPrompt={aiPrompt} setAiPrompt={setAiPrompt} />
       <div className="w-full h-px bg-dark-border my-4"></div>
       <h2 className="text-lg font-semibold text-dark-text-primary mb-3">Nodes</h2>
       <div className="relative mb-3">

@@ -121,6 +121,20 @@ export async function executeWorkflow({ nodes, edges, credentials, onLog, onSetA
                     break;
                 
                 // Mock execution for other nodes
+                case NodeType.SEND_MESSAGE:
+                    const person = node.assignedPerson || resolvedData.assignedPerson;
+                    if (!person || !person.name) {
+                        throw new Error('No person assigned to receive the message');
+                    }
+                    log(node.id, `Sending ${resolvedData.channel} message to ${person.name}`);
+                    output = {
+                        status: 'sent',
+                        recipient: person.name,
+                        channel: resolvedData.channel,
+                        messageContent: resolvedData.message
+                    };
+                    break;
+
                 case NodeType.GENERATE_DOCUMENT:
                 case NodeType.FILE_TAXES:
                 case NodeType.UPDATE_CRM:

@@ -16,9 +16,9 @@ export const Header = ({ onGenerate, isLoading }) => {
   return (
     <header className="flex-shrink-0 bg-dark-surface border-b border-dark-border px-4 py-2 flex items-center justify-between shadow-md z-30">
       <div className="flex items-center gap-3">
-        <LogoComponent size="sm" includeAudio={false} />
+        <LogoComponent size="sm" includeAudio={true} />
         <h1 className="text-lg font-bold text-dark-text-primary tracking-tight hidden sm:block">
-          Busin.us <span className="text-brand-secondary">Workflow AI</span>
+          <span className="text-brand-secondary">Workflow AI</span>
         </h1>
         <h1 className="text-lg font-bold text-dark-text-primary tracking-tight sm:hidden">
           <span className="text-brand-secondary">W</span>AI

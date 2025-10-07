@@ -1,6 +1,31 @@
 import React from 'react';
 import { NodeType } from './types.js';
-import { TriggerIcon, SendEmailIcon, GenerateDocumentIcon, FileTaxesIcon, UpdateCrmIcon, SocialPostIcon, WaitIcon, IfConditionIcon, LoopStartIcon, LoopEndIcon, CodeIcon, DatabaseIcon, ApiIcon, LoggerIcon, BrowsingAgentIcon, RegisterBusinessIcon, ExpandBusinessIcon, DashboardIcon, CreateWebsiteIcon, ManageInvoicesIcon, MarketResearchIcon, ComplianceCheckIcon, HireEmployeeIcon } from './components/icons';
+import { 
+  TriggerIcon, 
+  SendEmailIcon, 
+  GenerateDocumentIcon, 
+  FileTaxesIcon, 
+  UpdateCrmIcon, 
+  SocialPostIcon, 
+  WaitIcon, 
+  IfConditionIcon, 
+  LoopStartIcon, 
+  LoopEndIcon, 
+  CodeIcon, 
+  DatabaseIcon, 
+  ApiIcon, 
+  LoggerIcon, 
+  BrowsingAgentIcon, 
+  RegisterBusinessIcon, 
+  ExpandBusinessIcon, 
+  DashboardIcon, 
+  CreateWebsiteIcon, 
+  ManageInvoicesIcon, 
+  MarketResearchIcon, 
+  ComplianceCheckIcon, 
+  HireEmployeeIcon,
+  MessageIcon 
+} from './components/icons';
 
 export const NODE_WIDTH = 208; // Corresponds to w-52 class
 export const NODE_HEIGHT = 80; // Corresponds to h-20 class
@@ -19,6 +44,18 @@ export const NODE_TYPES = {
     icon: <SendEmailIcon className="w-6 h-6" />,
     defaultData: { to: '{{user.email}}', subject: 'Welcome!', body: 'Hello {{user.name}}!' },
     description: 'Sends a transactional or marketing email.'
+  },
+  [NodeType.SEND_MESSAGE]: {
+    type: NodeType.SEND_MESSAGE,
+    label: 'Send Message',
+    icon: <MessageIcon className="w-6 h-6" />,
+    defaultData: { 
+      to: '',
+      message: '',
+      channel: 'whatsapp',
+      assignedPerson: null
+    },
+    description: 'Sends a message to the assigned person via messaging channels.'
   },
   [NodeType.GENERATE_DOCUMENT]: {
     type: NodeType.GENERATE_DOCUMENT,
@@ -166,5 +203,22 @@ export const NODE_TYPES = {
     icon: <WaitIcon className="w-6 h-6" />,
     defaultData: { duration: '1', unit: 'days' },
     description: 'Pauses the workflow for a set duration.'
+  },
+  [NodeType.SEND_MESSAGE]: {
+    type: NodeType.SEND_MESSAGE,
+    label: 'Send Message',
+    icon: <MessageIcon className="w-6 h-6" />,
+    defaultData: { 
+      to: '', 
+      message: '', 
+      channel: 'whatsapp',
+      assignedPerson: {
+        name: '',
+        email: '',
+        phone: '',
+        role: ''
+      }
+    },
+    description: 'Sends a message to the assigned person via specified channel.'
   },
 };

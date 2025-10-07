@@ -22,10 +22,19 @@ export enum NodeType {
   MARKET_RESEARCH = 'MARKET_RESEARCH',
   COMPLIANCE_CHECK = 'COMPLIANCE_CHECK',
   HIRE_EMPLOYEE = 'HIRE_EMPLOYEE',
+  SEND_MESSAGE = 'SEND_MESSAGE',  // New node type for sending messages
 }
 
 export interface NodeData {
   [key: string]: any;
+}
+
+export interface Person {
+  id?: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  role?: string;
 }
 
 export interface WorkflowNode {
@@ -35,6 +44,7 @@ export interface WorkflowNode {
   position: { x: number; y: number };
   data: NodeData;
   warnings?: string[];
+  assignedPerson?: Person;  // New field for person assignment
 }
 
 export interface Edge {

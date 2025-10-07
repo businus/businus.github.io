@@ -6,7 +6,7 @@ import HeroSection from "../sections/HeroSection.jsx";
 import StatsSection from "../sections/StatsSection";
 import ServicesSection from "../sections/ServicesSection.jsx";
 import ProcessTimeline from "../sections/ProcessTimeline.jsx";
-import TestimonialsSection from "../sections/TestimonialsSection";
+// import TestimonialsSection from "../sections/TestimonialsSection";
 import FinalCTA from "../sections/FinalCTA.jsx";
 import Footer from "../sections/Footer.jsx";
 
@@ -128,7 +128,7 @@ const PremiumLandingPage = () => {
 
         <ProcessTimeline ref={timelineRef} />
 
-        <TestimonialsSection ref={testimonialRef} />
+        {/* <TestimonialsSection ref={testimonialRef} /> */}
 
         <FinalCTA ref={ctaRef} />
 

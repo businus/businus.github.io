@@ -1,7 +1,9 @@
 // src/components/layout/Navigation.jsx
 import React, { forwardRef, useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { PhoneIcon, EnvelopeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { PhoneIcon, EnvelopeIcon, ChevronDownIcon, 
+         LinkIcon, ChatBubbleLeftRightIcon, 
+         ChatBubbleLeftIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import LogoComponent from '../../shared/LogoComponent';
 
 const WHATSAPP_NUMBER = "+917975113388"; // international format without spaces or dashes
@@ -24,6 +26,7 @@ function useDeviceType() {
 const Navigation = forwardRef((props, ref) => {
   const containerRef = useRef(null);
   const [showPhoneOptions, setShowPhoneOptions] = useState(false);
+  const [showCommunityOptions, setShowCommunityOptions] = useState(false);
 
   const deviceType = useDeviceType();
 
@@ -36,11 +39,13 @@ const Navigation = forwardRef((props, ref) => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         setShowPhoneOptions(false);
+        setShowCommunityOptions(false);
       }
     };
     const handleEscape = (event) => {
       if (event.key === "Escape") {
         setShowPhoneOptions(false);
+        setShowCommunityOptions(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -186,6 +191,71 @@ const Navigation = forwardRef((props, ref) => {
               <EnvelopeIcon className="h-5 w-5 sm:h-6 sm:w-6 mr-1 sm:mr-2 group-hover:scale-110 transition-transform text-teal-400" />
               <span className="text-sm sm:text-base font-semibold tracking-wide">info@busin.us</span>
             </a>
+
+            {/* Community dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={showCommunityOptions}
+                onClick={() => setShowCommunityOptions((v) => !v)}
+                className="flex items-center hover:text-emerald-400 transition-colors group
+                           shadow-sm hover:shadow-md px-3 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              >
+                <UserGroupIcon className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform text-teal-400" />
+                <span className="text-sm sm:text-base font-semibold tracking-wide">Communities</span>
+                <ChevronDownIcon className={`h-4 w-4 ml-1 text-teal-400 transition-transform ${showCommunityOptions ? 'rotate-180' : ''}`} aria-hidden="true" />
+              </button>
+
+              {showCommunityOptions && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute z-50 mt-1 right-0 w-48 rounded-md bg-white/90 backdrop-blur-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                >
+                  <a
+                    href="https://t.me/+Itpocs6cS51iNjQ1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowCommunityOptions(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-900 hover:bg-emerald-100"
+                    role="menuitem"
+                    tabIndex={0}
+                  >
+                    <ChatBubbleLeftRightIcon className="h-5 w-5 mr-2 text-teal-400" />
+                    Telegram
+                  </a>
+                  
+                  <a
+                    href="https://discord.gg/NVgqMc5H"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowCommunityOptions(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-900 hover:bg-emerald-100"
+                    role="menuitem"
+                    tabIndex={0}
+                  >
+                    <ChatBubbleLeftIcon className="h-5 w-5 mr-2 text-teal-400" />
+                    Discord
+                  </a>
+                  
+                  <a
+                    href="https://www.reddit.com/r/BusinUS/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowCommunityOptions(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-900 hover:bg-emerald-100"
+                    role="menuitem"
+                    tabIndex={0}
+                  >
+                    <LinkIcon className="h-5 w-5 mr-2 text-teal-400" />
+                    Reddit
+                  </a>
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         </div>
       </div>

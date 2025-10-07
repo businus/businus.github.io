@@ -104,6 +104,7 @@ const WorkflowApp = () => {
   const [executionLogs, setExecutionLogs] = useState([]);
   const [activeNodeId, setActiveNodeId] = useState(null);
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState(''); // Add this state for the AI prompt
   
   // Mobile state
   const [isMobile, setIsMobile] = useState(false);
@@ -189,6 +190,7 @@ const WorkflowApp = () => {
     try {
         const { type, label } = await generateNodeFromPrompt(prompt);
         addNode(type, label);
+        setAiPrompt(''); // Clear the prompt after successful generation
     } catch (err) {
         setError('Failed to generate node. Please try a different prompt.');
         console.error(err);
@@ -806,6 +808,8 @@ const WorkflowApp = () => {
           isMobile={isMobile}
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
+          aiPrompt={aiPrompt} // Pass the AI prompt state
+          setAiPrompt={setAiPrompt} // Pass the setter function
         />
         
         <div className="flex-1 flex flex-col overflow-hidden">
