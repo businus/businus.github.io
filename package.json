@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-device-detect": "^2.2.3",
-    "use-sound": "^5.0.0"
-  }
-}
