@@ -1,0 +1,7 @@
+This is a placeholder file for the acquire subdomain assets.
+In a real implementation, this directory would contain:
+- Business listing images
+- Investor profile pictures
+- Logo variations
+- Marketing graphics
+- Icons and illustrations
